@@ -4,6 +4,7 @@ use_packages <- list(
   Imports = c(
     "dplyr",
     "jsonlite",
+    "magrittr",
     "processx",
     "purrr",
     "rlang",
@@ -17,9 +18,6 @@ use_packages <- list(
   Enhances = c(
   ),
   LinkingTo = c(
-  ),
-  SystemRequirements = c(
-    "awscli (>= 2)"
   )
 )
 
@@ -32,4 +30,4 @@ usethis::use_testthat()
 usethis::use_package_doc()
 
 devtools::document()
-#devtools::check(error_on = "error")
+devtools::check(error_on = "error")

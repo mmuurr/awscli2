@@ -4,12 +4,12 @@
 \name{awscli2-package}
 \alias{awscli2}
 \alias{awscli2-package}
-\title{awscli2: What the Package Does (One Line, Title Case)}
+\title{awscli2: Wraps the AWS CLI}
 \description{
-What the package does (one paragraph).
+Wraps the AWS CLI (v2) in a lightweight and consistent manner.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Murat Tasan \email{mmuurr@gmail.com} (\href{https://orcid.org/0000-0002-8155-2565}{ORCID})
 
 }
 \keyword{internal}
