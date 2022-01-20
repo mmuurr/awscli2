@@ -1,0 +1,29 @@
+Package: awscli2
+Title: Wraps the AWS CLI
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Murat",
+           family = "Tasan",
+           role = c("aut", "cre"),
+           email = "mmuurr@gmail.com",
+           comment = c(ORCID = "0000-0002-8155-2565"))
+Description:
+    Wraps the AWS CLI (v2) in a lightweight and consistent manner.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    rlang (>= 0.4.10),
+    processx (>= 3.4.5),
+    dplyr (>= 1.0.6),
+    purrr (>= 0.3.4),
+    vctrs (>= 0.3.8),
+    jsonlite (>= 1.7.2),
+    stringr (>= 1.4.0)
+Suggests: 
+    testthat (>= 3.0.0)
+SystemDependencies:
+	awscli (>= 2)
+Config/testthat/edition: 3
