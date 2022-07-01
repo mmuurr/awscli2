@@ -1,33 +1,28 @@
-#usethis::create_package(".")
-
+## DESCRIPTION
 use_packages <- list(
   Imports = c(
-    "dplyr",
-    "jsonlite",
-    "magrittr",
-    "processx",
-    "purrr",
-    "rlang",
-    "stringr",
-    "vctrs"
+    renv::dependencies("R/")$Package
   ),
-  Depends = c(
-  ),
+  Depends = c(),
   Suggests = c(
   ),
-  Enhances = c(
-  ),
-  LinkingTo = c(
-  )
+  Enhances = c(),
+  LinkingTo = c()
 )
 
 purrr::walk2(names(use_packages), use_packages, function(type, packages) {
   purrr::walk(packages, usethis::use_package, type = type, min_version = TRUE)
 })
 
-usethis::use_mit_license()
+
+## Testing
 usethis::use_testthat()
+
+
+## Documentation
 usethis::use_package_doc()
 
+
+## NAMESPACE, collation, etc.
 devtools::document()
-devtools::check(error_on = "error")
+

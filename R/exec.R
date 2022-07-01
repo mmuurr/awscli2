@@ -2,9 +2,8 @@
 ## awscli(commands("rds", "wait", "db-instance-ready"),
 
 
-DEFAULT_CONFIG <- list(
-  output = "json"
-)
+DEFAULT_CONFIG <- new.env()
+DEFAULT_CONFIG$output <- "json"
 
 
 is_valid_json <- function(json) {
@@ -17,8 +16,9 @@ from_json <- function(json) {
 }
 
 
+#' @export
 set_default_profile <- function(profile_name) {
-  DEFAULT_CONFIG$profile <<- profile_name
+  DEFAULT_CONFIG$profile <- profile_name
 }
 
 
@@ -36,7 +36,7 @@ dots2list <- function(...) {
 #' @importFrom magrittr `%>%`
 aws_args <- function(commands, ..., .config = NULL) {
   ## convert any (possibly named) character vectors to a list.
-  .config <- if (is.null(.config)) DEFAULT_CONFIG else as.list(.config)
+  .config <- if (is.null(.config)) as.list(DEFAULT_CONFIG) else as.list(.config)
   commands <- as.list(as.character(commands))  ## as.character() strips names
   command_args <- dots2list(...)
 

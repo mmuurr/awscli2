@@ -1,6 +1,6 @@
 Package: awscli2
 Title: Wraps the AWS CLI
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Murat",
            family = "Tasan",
@@ -15,9 +15,9 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    rlang (>= 0.4.10),
+    rlang (>= 1.0.2),
     processx (>= 3.4.5),
-    dplyr (>= 1.0.6),
+    dplyr (>= 1.0.8),
     purrr (>= 0.3.4),
     vctrs (>= 0.3.8),
     jsonlite (>= 1.7.2),
