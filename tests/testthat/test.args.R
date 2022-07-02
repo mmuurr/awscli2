@@ -1,5 +1,7 @@
 test_that("processx arg string", {
 
+  set_default_profile("test-profile")
+
   expect_equal(
     aws_args(
       c("command", "subcommand1", "subcommand2"),
@@ -18,6 +20,7 @@ test_that("processx arg string", {
     ),
     c(
       "--output", "json",
+      "--profile", "test-profile",
       "command", "subcommand1", "subcommand2",
       "--key1", "val2",
       "--key2", "val3",
@@ -46,6 +49,8 @@ test_that("processx arg string", {
       .config = list()
     ),
     c(
+      "--output", "json",
+      "--profile", "test-profile",
       "command", "subcommand1", "subcommand2",
       "--key1", "val2",
       "--key2", "val3",
@@ -74,6 +79,7 @@ test_that("processx arg string", {
       .config = list("profile" = "foo")
     ),
     c(
+      "--output", "json",
       "--profile", "foo",
       "command", "subcommand1", "subcommand2",
       "--key1", "val2",
@@ -98,6 +104,8 @@ test_that("ignore doubledash", {
       .config = list()
     ),
     c(
+      "--output", "json",
+      "--profile", "test-profile",
       "rds", "create-db-instance",
       "--already", "doubledashed",
       "--not", "doubled"

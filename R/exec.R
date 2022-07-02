@@ -21,6 +21,10 @@ set_default_profile <- function(profile_name) {
   DEFAULT_CONFIG$profile <- profile_name
 }
 
+#' @export
+get_default_opts <- function() {
+  as.list(DEFAULT_CONFIG)
+}
 
 dots2list <- function(...) {
   rlang::dots_list(
@@ -35,8 +39,12 @@ dots2list <- function(...) {
 #' @importFrom vctrs `%0%`
 #' @importFrom magrittr `%>%`
 aws_args <- function(commands, ..., .config = NULL) {
+
+  if (is.null(.config)) .config <- list()
+  stopifnot(rlang::is_dictionaryish(.config))
+  .config <- purrr::list_modify(as.list(DEFAULT_CONFIG), !!!.config)
+  
   ## convert any (possibly named) character vectors to a list.
-  .config <- if (is.null(.config)) as.list(DEFAULT_CONFIG) else as.list(.config)
   commands <- as.list(as.character(commands))  ## as.character() strips names
   command_args <- dots2list(...)
 
