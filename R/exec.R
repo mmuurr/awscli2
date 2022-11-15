@@ -1,9 +1,14 @@
 ## desired usage:
 ## awscli(commands("rds", "wait", "db-instance-ready"),
 
+`%0%` <- vctrs::`%0%`
+`%>%` <- magrittr::`%>%`
 
-DEFAULT_CONFIG <- new.env()
-DEFAULT_CONFIG$output <- "json"
+
+DEFAULT_CONFIG <-
+  list(
+    output = "json"
+  ) %>% base::list2env()
 
 
 is_valid_json <- function(json) {
@@ -21,10 +26,24 @@ set_default_profile <- function(profile_name) {
   DEFAULT_CONFIG$profile <- profile_name
 }
 
+
 #' @export
-get_default_opts <- function() {
-  as.list(DEFAULT_CONFIG)
+set_default_region <- function(region) {
+  DEFAULT_CONFIG$region <- region
 }
+
+
+#' @export
+get_default_config <- function() {
+  config <- as.list(DEFAULT_CONFIG)
+  config[order(names(config))]  ## stable ordering for test expectations
+}
+
+
+## TODO: deprecate in favor of get_default_config(), i.e. use consistent naming.
+#' @export
+get_default_opts <- get_default_config
+
 
 dots2list <- function(...) {
   rlang::dots_list(
@@ -36,14 +55,20 @@ dots2list <- function(...) {
 }
 
 
-#' @importFrom vctrs `%0%`
-#' @importFrom magrittr `%>%`
 aws_args <- function(commands, ..., .config = NULL) {
 
-  if (is.null(.config)) .config <- list()
-  stopifnot(rlang::is_dictionaryish(.config))
-  .config <- purrr::list_modify(as.list(DEFAULT_CONFIG), !!!.config)
-  
+  config_as_is <- inherits(.config, "AsIs")
+
+  .config <- as.list(.config)
+  checkmate::assert_list(.config, names = "unique")
+
+  .config <-
+    if (config_as_is) {
+      .config
+    } else {
+      purrr::list_modify(get_default_config(), !!!.config)
+    }
+
   ## convert any (possibly named) character vectors to a list.
   commands <- as.list(as.character(commands))  ## as.character() strips names
   command_args <- dots2list(...)
@@ -78,7 +103,6 @@ aws_args <- function(commands, ..., .config = NULL) {
 }
 
 
-#' @importFrom magrittr `%>%`
 #' @export
 awscli <- function(commands, ..., .config = NULL, .proc = FALSE, .echo_cmd = FALSE, .echo = FALSE) {
   proc <- processx::run(

@@ -113,3 +113,24 @@ test_that("ignore doubledash", {
   )
   
 })
+
+
+test_that("as-is config", {
+
+  expect_equal(
+    aws_args(
+      c("rds", "create-db-instance"),
+      "--already" = "doubledashed",
+      "not" = "doubled",
+      .config = I(list())
+    ),
+    c(
+      "rds", "create-db-instance",
+      "--already", "doubledashed",
+      "--not", "doubled"
+    )
+  )
+  
+})
+
+
