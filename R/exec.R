@@ -18,7 +18,7 @@ is_valid_json <- function(json) {
 
 
 from_json <- function(json) {
-  jsonlite::fromJSON(json, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
+  jsonlite::fromJSON(json, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
 }
 
 
