@@ -1,6 +1,6 @@
 Package: awscli2
 Title: Wraps the AWS CLI
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person(given = "Murat",
            family = "Tasan",

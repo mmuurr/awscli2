@@ -3,6 +3,7 @@
 
 `%0%` <- vctrs::`%0%`
 `%>%` <- magrittr::`%>%`
+`%||%` <- rlang::`%||%`
 
 
 DEFAULT_CONFIG <-
@@ -55,6 +56,11 @@ dots2list <- function(...) {
 }
 
 
+list_names <- function(l, missing = "") {
+  names(l) %||% rep(missing, length(l))
+}
+
+
 aws_args <- function(commands, ..., .config = NULL) {
 
   config_as_is <- inherits(.config, "AsIs")
@@ -76,23 +82,26 @@ aws_args <- function(commands, ..., .config = NULL) {
   ## this must remain a list for a few steps so NULLs can be stored (for flags).
   args_list <- dots2list(!!!c(.config, commands, command_args))
 
-  ## force names, even if empty string for all.
-  ## then prepend "--" where non-empty and not already starting with "--".
-  arg_names <- 
-    (names(args_list) %0% rep("", length(args_list))) %>%
+  ## force all names to be strings; if missing then use empty string ("").
+  ## prepend double-hyphen ("--") if named and not already starting with "--"
+  arg_names <-
+    list_names(args_list, "") %>%
     stringr::str_trim() %>%
-    { dplyr::if_else(
-      stringr::str_length(.) == 0 | stringr::str_detect(., "^--"),  ## if
-      .,                                                            ## then
-      sprintf("--%s", .)                                            ## else
-    ) }
-
+    { dplyr::if_else(. == "" | stringr::str_detect(., "^--"), ., sprintf("--%s", .)) }
+  
   arg_values <- 
     args_list %>%
-    purrr::map(function(x) if (is.null(x)) "" else x) %>%  ## NULL -> ""
-    purrr::map_chr(stringr::str_trim)  ## now we have character()
-
+    purrr::map(function(x) {
+      (x %||% "") %>%
+        as.character() %>%
+        stringr::str_trim()
+    })
+  
   ## zip these together into a single character vector.
+  ## in cases where the value is itself a character vector of length > 1, e.g.:
+  ##   names  = n_a, n_b,
+  ##   values = (v_a1, v_a2), v_b
+  ##   zipped = n_a v_a1, v_a2, n_b, v_b
   ## discard any still empty strings.
   final_args <-
     purrr::map2(arg_names, arg_values, c) %>%
