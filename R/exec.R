@@ -113,12 +113,13 @@ aws_args <- function(commands, ..., .config = NULL) {
 
 
 #' @export
-awscli <- function(commands, ..., .config = NULL, .proc = FALSE, .echo_cmd = FALSE, .echo = FALSE) {
+awscli <- function(commands, ..., .config = NULL, .proc = FALSE, .echo_cmd = FALSE, .echo = FALSE, .timeout_sec = Inf) {
   proc <- processx::run(
     "aws",
     aws_args(commands, ..., .config = .config),
     echo_cmd = .echo_cmd,
-    echo = .echo
+    echo = .echo,
+    timeout = .timeout_sec
   )
   if (isTRUE(.proc)) return(proc)
   if (is_valid_json(proc$stdout)) return(from_json(proc$stdout)) else return(proc$stdout)

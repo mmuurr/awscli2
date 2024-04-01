@@ -1,6 +1,6 @@
 Package: awscli2
 Title: Wraps the AWS CLI
-Version: 0.0.5
+Version: 1.0.0
 Authors@R: 
     person(given = "Murat",
            family = "Tasan",
@@ -13,20 +13,20 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-Imports: 
-    rlang (>= 1.0.4),
-    processx (>= 3.4.5),
-    dplyr (>= 1.0.8),
-    purrr (>= 0.3.4),
-    vctrs (>= 0.3.8),
-    jsonlite (>= 1.7.2),
-    stringr (>= 1.4.0),
-    magrittr (>= 2.0.1),
-    base (>= 4.0.3),
-    checkmate (>= 2.0.0)
+RoxygenNote: 7.3.1
 Suggests: 
     testthat (>= 3.0.0)
 SystemDependencies:
 	awscli (>= 2)
 Config/testthat/edition: 3
+Imports: 
+    base (>= 4.3.2),
+    checkmate (>= 2.3.1),
+    dplyr (>= 1.1.4),
+    jsonlite (>= 1.8.8),
+    magrittr (>= 2.0.3),
+    processx (>= 3.8.3),
+    purrr (>= 1.0.2),
+    rlang (>= 1.1.2),
+    stringr (>= 1.5.1),
+    vctrs (>= 0.6.5)
