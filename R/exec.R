@@ -119,10 +119,15 @@ awscli <- function(commands, ..., .config = NULL, .proc = FALSE, .echo_cmd = FAL
     aws_args(commands, ..., .config = .config),
     echo_cmd = .echo_cmd,
     echo = .echo,
-    timeout = .timeout_sec
+    timeout = .timeout_sec,
+    error_on_status = FALSE
   )
-  if (isTRUE(.proc)) return(proc)
-  if (is_valid_json(proc$stdout)) return(from_json(proc$stdout)) else return(proc$stdout)
+  if (isTRUE(proc$status == 0)) {
+    if (isTRUE(.proc)) return(proc)
+    if (is_valid_json(proc$stdout)) return(from_json(proc$stdout)) else return(proc$stdout)
+  } else {
+    rlang::abort(sprintf("system command 'aws' failed:\n%s", proc$stderr))
+  }
 }
 
 
